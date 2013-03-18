@@ -1,4 +1,4 @@
-function [time,red,green,blue,lux,CLA,activity] = ReadRaw(InfoName,DataName)
+function ProcessedData = ReadRaw(InfoName,DataName)
 % READRAW processes Daysimeter files that have been downloaded directly
 
 % read the header file
@@ -72,5 +72,9 @@ blue = B*cal(3);
 % calculate lux and CLA
 [lux, CLA] = Day12luxCLA(red, green, blue, IDnum);
 CLA(CLA < 0) = 0;
+
+% Bundle Data
+ProcessedData = struct('time',time,'red',red,'green',green,'blue',blue,...
+    'lux',lux,'CLA',CLA,'activity',activity);
 
 end
