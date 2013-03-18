@@ -45,6 +45,8 @@ if exist('idx','var') == 1
     DataLogs{idx} = [];
 end
 
+n = length(Headers);
+
 % Generate full file paths
 InfoName = cell(n,1);
 DataName = cell(n,1);
@@ -57,6 +59,52 @@ end
 ProcessedData = cell(n,1);
 for i1 = 1:n
     ProcessedData{i1} = ReadRaw(InfoName{i1},DataName{i1});
+end
+
+% Make directory for plots if it does not exist
+PlotDir = fullfile(FileDir,'MillerPlots');
+if isdir(PlotDir) == 0
+    mkdir(PlotDir);
+else
+    rmdir(PlotDir,'s');
+    mkdir(PlotDir);
+end
+% Plot files
+close all
+for i1 = 1:n
+    time = ProcessedData{i1}.time;
+    CS = ProcessedData{i1}.CS;
+    AI = ProcessedData{i1}.activity;
+    % Check array orientation
+    Dim = size(time);
+    if Dim(2) > Dim(1)
+        time = time';
+    end
+    Dim = size(CS);
+    if Dim(2) > Dim(1)
+        CS = CS';
+    end
+    Dim = size(AI);
+    if Dim(2) > Dim(1)
+        AI = AI';
+    end
+    TI = time - time(1); % time index relative to start time
+    Subject = regexprep(DataLogs{i1},'(.*)\.txt','$1');
+    % Plot each 24 hour period and save as png
+    for i2 = floor(min(TI)):ceil(max(TI))-1
+        t1 = find(TI >= i2,1,'first');
+        t2 = find(TI < i2+1,1,'last');
+        idx = t1:t2;
+        MillerPlot(time(idx), AI(idx), CS(idx));
+        StartDate = datestr(time(idx(1)),'mmm dd, yyyy HH:MM');
+        EndDate = datestr(time(idx(end)),'mmm dd, yyyy HH:MM');
+        DateRange = [StartDate,' - ',EndDate];
+        title({Subject;DateRange});
+        xlabel('hours');
+        FileName = [Subject,'_',datestr(time(idx(1)),'yy-mm-dd')];
+        print('-dpng','-r100',fullfile(PlotDir,FileName));
+        close(gcf)
+    end
 end
 
 end
