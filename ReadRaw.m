@@ -73,8 +73,11 @@ blue = B*cal(3);
 [lux, CLA] = Day12luxCLA(red, green, blue, IDnum);
 CLA(CLA < 0) = 0;
 
+% calculate CS
+CS = CSCalc(CLA);
+
 % Bundle Data
 ProcessedData = struct('time',time,'red',red,'green',green,'blue',blue,...
-    'lux',lux,'CLA',CLA,'activity',activity);
+    'lux',lux,'CLA',CLA,'CS',CS,'activity',activity);
 
 end
