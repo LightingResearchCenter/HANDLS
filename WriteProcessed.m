@@ -1,6 +1,5 @@
-function WriteProcessedFile
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+function WriteProcessed
+%WRITEPROCESSED Write processed data to text and Excel files
 
 % select raw data and header files
 StartPath = '\\ROOT\projects\HANDLS\Files From HANDLS'; % directory to start in
@@ -10,7 +9,7 @@ StartPath = '\\ROOT\projects\HANDLS\Files From HANDLS'; % directory to start in
 InfoName = fullfile(InfoPath,InfoName);
 DataName = fullfile(DataPath,DataName);
 
-[time,red,green,blue,lux,CLA,activity] = ReadRawFile(InfoName,DataName);
+[time,red,green,blue,lux,CLA,activity] = ReadRaw(InfoName,DataName);
 
 % convert time to string format
 timeStr = datestr(time,'dd/mm/yyyy HH:MM:SS');

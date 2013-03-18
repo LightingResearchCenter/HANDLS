@@ -1,5 +1,5 @@
-function [time,red,green,blue,lux,CLA,activity] = ReadRawFile(InfoName,DataName)
-% READRAWFILE processes Daysimeter files that have been downloaded directly
+function [time,red,green,blue,lux,CLA,activity] = ReadRaw(InfoName,DataName)
+% READRAW processes Daysimeter files that have been downloaded directly
 
 % read the header file
 fid = fopen(InfoName,'r','b');
