@@ -88,23 +88,11 @@ for i1 = 1:n
     if Dim(2) > Dim(1)
         AI = AI';
     end
-    TI = time - time(1); % time index relative to start time
     Subject = regexprep(DataLogs{i1},'(.*)\.txt','$1');
-    % Plot each 24 hour period and save as png
-    for i2 = floor(min(TI)):ceil(max(TI))-1
-        t1 = find(TI >= i2,1,'first');
-        t2 = find(TI < i2+1,1,'last');
-        idx = t1:t2;
-        MillerPlot(time(idx), AI(idx), CS(idx));
-        StartDate = datestr(time(idx(1)),'mmm dd, yyyy HH:MM');
-        EndDate = datestr(time(idx(end)),'mmm dd, yyyy HH:MM');
-        DateRange = [StartDate,' - ',EndDate];
-        title({Subject;DateRange});
-        xlabel('hours');
-        FileName = [Subject,'_',datestr(time(idx(1)),'yy-mm-dd')];
-        print('-dpng','-r100',fullfile(PlotDir,FileName));
-        close(gcf)
-    end
+    MillerPlot(time, AI, CS, 7, Subject);
+    FileName = [Subject,'_',datestr(time(1),'yy-mm-dd')];
+    print('-dpng','-r100',fullfile(PlotDir,FileName));
+    close(gcf)
 end
 
 end
