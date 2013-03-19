@@ -30,9 +30,9 @@ for i1 = 1:n
     if Dim(2) > Dim(1)
         AI = AI';
     end
-    Subject = regexprep(DataLogs{i1},'(.*)\.txt','$1');
-    MillerPlot(time, AI, CS, 7, Subject);
-    FileName = [Subject,'_',datestr(time(1),'yy-mm-dd')];
+    subject = ProcessedData{i1}.subject;
+    MillerPlot(time, AI, CS, 7, subject);
+    FileName = [subject,'_',datestr(time(1),'yy-mm-dd')];
     print('-dpng','-r100',fullfile(PlotDir,FileName));
     close(gcf)
 end

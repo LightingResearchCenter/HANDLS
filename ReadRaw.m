@@ -76,8 +76,11 @@ CLA(CLA < 0) = 0;
 % calculate CS
 CS = CSCalc(CLA);
 
+% find Subject number from file
+[~, subject, ~] = fileparts(DataName);
+
 % Bundle Data
-ProcessedData = struct('time',time,'red',red,'green',green,'blue',blue,...
+ProcessedData = struct('subject',subject,'time',time,'red',red,'green',green,'blue',blue,...
     'lux',lux,'CLA',CLA,'CS',CS,'activity',activity);
 
 end
