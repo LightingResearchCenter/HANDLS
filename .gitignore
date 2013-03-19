@@ -169,3 +169,6 @@ pip-log.txt
 
 *.mat
 *.asv
+
+
+*.pdf

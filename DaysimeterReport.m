@@ -1,6 +1,68 @@
-function DaysimeterReport(time,lux,CLA,CS,activity)
+function DaysimeterReport(subject,time,lux,CLA,CS,activity)
 %DAYSIMETERREPORT Generates graphical summary od processed Dasimeter data
 
+% Set color values
+FaceColor = 'k';
+EdgeColor = 'none';
 
+% Set position values
+x1 = 0.05;
+w1 = 0.6-x1;
+h1 = 0.1;
 
+h2 = 0.4;
+y2 = 0.65-h2;
+w2 = h2*7.5/10;
+x2 = 1-0.05-w2;
+
+% Create figure
+figure1 = figure;
+set(figure1,'PaperUnits','inches',...
+    'PaperType','usletter',...
+    'PaperOrientation','landscape',...
+    'PaperPositionMode','manual',...
+    'PaperPosition',[0.5 0.5 10 7.5],...
+    'Units','inches',...
+    'Position',[0 0 11 8.5]);
+
+% Create title
+StartDate = datestr(time(1),'mmm dd, yyyy HH:MM');
+EndDate = datestr(time(end),'mmm dd, yyyy HH:MM');
+DateRange = [StartDate,' - ',EndDate];
+titleHandle = annotation(figure1,'textbox',...
+    [0.3 0.85 0.1 0.1],...
+    'String',{subject;DateRange},...
+    'FitBoxToText','on',...
+    'HorizontalAlignment','center',...
+    'LineStyle','none');
+% Center the title
+P = get(titleHandle,'Position');
+P(1) = 0.5-P(3)/2;
+set(titleHandle,'Position',P);
+
+% Panel 1 Activity
+aPanel(time,activity,'Activity',figure1,[x1 0.7 w1 h1],FaceColor,EdgeColor);
+
+% Panel 2 CS
+aPanel(time,CS,'CS',figure1,[x1 0.5 w1 h1],FaceColor,EdgeColor);
+
+% Panel 3 CLA
+aPanel(time,CLA,'CLA',figure1,[x1 0.3 w1 h1],FaceColor,EdgeColor);
+
+% Panel 4 lux
+aPanel(time,lux,'lux',figure1,[x1 0.1 w1 h1],FaceColor,EdgeColor);
+
+% Panel 5 Phasors
+axes('Parent',figure1,...
+    'Position',[x2 y2 w2 h2]);
+
+end
+
+function aPanel(x,y,label,Parent,Postion,FaceColor,EdgeColor)
+H = axes('Parent',Parent,'Position',Postion);
+area(H,x,y,'FaceColor',FaceColor,'EdgeColor',EdgeColor);
+set(H,'Box','off','TickDir','out');
+ticks = get(H,'xtick');
+set(H,'xtick',ticks,'xticklabel',datestr(ticks,'mm/dd'));
+ylabel(label);
 end
