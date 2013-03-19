@@ -1,4 +1,4 @@
-load ProcessedData.mat ProcessedData DataLogs FileDir
+load ProcessedData.mat ProcessedData FileDir
 
 n = length(ProcessedData);
 

@@ -1,7 +1,7 @@
 function BatchMiller
 %BATCHMILLER Create Miller plots for a batch of data
 
-load ProcessedData.mat
+load ProcessedData.mat FileDir n ProcessedData
 
 % Make directory for plots if it does not exist
 PlotDir = fullfile(FileDir,'MillerPlots');
