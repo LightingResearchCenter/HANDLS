@@ -11,9 +11,14 @@ w1 = 0.6-x1;
 h1 = 0.1;
 
 h2 = 0.4;
-y2 = 0.65-h2;
+y2 = 0.8-h2;
 w2 = h2*7.5/10;
 x2 = 1-0.05-w2;
+
+x3 = x2;
+w3 = w2;
+h3 = 0.04;
+y3 = y2-h3-0.02;
 
 % Create figure
 figure1 = figure;
@@ -48,14 +53,17 @@ aPanel(time,CS,'CS',figure1,[x1 0.5 w1 h1],FaceColor,EdgeColor);
 
 % Panel 3 CLA
 aPanel(time,CLA,'CLA',figure1,[x1 0.3 w1 h1],FaceColor,EdgeColor);
+axis tight;
 
 % Panel 4 lux
 aPanel(time,lux,'lux',figure1,[x1 0.1 w1 h1],FaceColor,EdgeColor);
+axis tight;
 
 % Panel 5 Phasors
-axes('Parent',figure1,...
-    'Position',[x2 y2 w2 h2]);
-
+axes5 = axes('Parent',figure1,'Position',[x2 y2 w2 h2]);
+PhasorPlot24hr([.25 .5 2]*pi, [1 2 3], 'o')
+legend1 = legend(axes5,'show');
+set(legend1,'Orientation','horizontal','Position',[x3 y3 w3 h3]);
 end
 
 function aPanel(x,y,label,Parent,Postion,FaceColor,EdgeColor)
