@@ -58,8 +58,13 @@ aPanel(time,lux,'lux',figure1,[x1 0.1 w1 h1],FaceColor,EdgeColor);
 axis tight;
 
 % Panel 5 Phasors
+%   Calculate phasors
+[phiCS,magCS] = Cosinor(time,CS,1);
+[phiCLA,magCLA] = Cosinor(time,CS,1);
+[phiLux,magLux] = Cosinor(time,CS,1);
+%   Plot phasors
 axes5 = axes('Parent',figure1,'Position',[x2 y2 w2 h2]);
-PhasorPlot24hr([.25 .5 2]*pi, [1 2 3], 'o')
+PhasorPlot24hr([phiCS phiCLA phiLux], [magCS magCLA magLux], 'o')
 legend1 = legend(axes5,'show');
 set(legend1,'Orientation','horizontal','Position',[x2 y3 w2 h3]);
 
