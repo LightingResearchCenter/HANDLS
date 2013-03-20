@@ -15,8 +15,6 @@ y2 = 0.8-h2;
 w2 = h2*7.5/10;
 x2 = 1-0.05-w2;
 
-x3 = x2;
-w3 = w2;
 h3 = 0.04;
 y3 = y2-h3-0.02;
 
@@ -63,7 +61,15 @@ axis tight;
 axes5 = axes('Parent',figure1,'Position',[x2 y2 w2 h2]);
 PhasorPlot24hr([.25 .5 2]*pi, [1 2 3], 'o')
 legend1 = legend(axes5,'show');
-set(legend1,'Orientation','horizontal','Position',[x3 y3 w3 h3]);
+set(legend1,'Orientation','horizontal','Position',[x2 y3 w2 h3]);
+
+% Panel 6 Text annotations
+notes = cell(3,1);
+notes{1} = ['Median CS: ', num2str(median(CS), '%.3f')];
+notes{2} = ['Median CLA: ', num2str(median(CLA), '%.1f')];
+notes{3} = ['Median Illuminance: ', num2str(median(lux), '%.1f'), ' lux'];
+annotation(figure1,'textbox', [x2 0.1 w2 0.2], 'String',notes,...
+    'BackgroundColor','w');
 end
 
 function aPanel(x,y,label,Parent,Postion,FaceColor,EdgeColor)
