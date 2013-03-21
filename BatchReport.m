@@ -18,7 +18,7 @@ n = length(ProcessedData);
 % for i1 = 1:n
 i1 = 3;
     DaysimeterReport(ProcessedData{i1}.subject,ProcessedData{i1}.time,...
-        ProcessedData{i1}.lux,ProcessedData{i1}.CLA,...
-        ProcessedData{i1}.CS,ProcessedData{i1}.activity);
+        ProcessedData{i1}.lux,ProcessedData{i1}.CS,...
+        ProcessedData{i1}.activity);
     print(gcf,'-dpdf','test.pdf');
 % end

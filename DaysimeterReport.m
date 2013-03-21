@@ -1,4 +1,4 @@
-function DaysimeterReport(subject,time,lux,CLA,CS,activity)
+function DaysimeterReport(subject,time,lux,CS,activity)
 %DAYSIMETERREPORT Generates graphical summary od processed Dasimeter data
 
 % Set color values
@@ -8,7 +8,7 @@ EdgeColor = 'none';
 % Set position values
 x1 = 0.05;
 w1 = 0.6-x1;
-h1 = 0.1;
+h1 = 0.2;
 
 h2 = 0.4;
 y2 = 0.8-h2;
@@ -45,36 +45,39 @@ set(titleHandle,'Position',P);
 
 % Panel 1 Activity
 aPanel(time,activity,'Activity',figure1,[x1 0.7 w1 h1],FaceColor,EdgeColor);
+ylim(gca,[0 1.5]);
 
 % Panel 2 CS
-aPanel(time,CS,'CS',figure1,[x1 0.5 w1 h1],FaceColor,EdgeColor);
+aPanel(time,CS,'CS',figure1,[x1 0.4 w1 h1],FaceColor,EdgeColor);
+ylim(gca,[0 1]);
 
-% Panel 3 CLA
-aPanel(time,CLA,'CLA',figure1,[x1 0.3 w1 h1],FaceColor,EdgeColor);
-axis tight;
+% Panel 3 lux
+Panel3 = axes('Parent',figure1,'Position',[x1 0.1 w1 h1]);
+semilogy(Panel3,time,lux,'Color',FaceColor);
+set(Panel3,'Box','off','TickDir','out');
+ticks = get(Panel3,'xtick');
+set(Panel3,'xtick',ticks,'xticklabel',datestr(ticks,'mm/dd'));
+ylim3 = get(gca,'YLim');
+ylim(gca,[1 ylim3(2)]);
+ylabel('lux');
 
-% Panel 4 lux
-aPanel(time,lux,'lux',figure1,[x1 0.1 w1 h1],FaceColor,EdgeColor);
-axis tight;
-
-% Panel 5 Phasors
+% Panel 4 Phasors
 %   Calculate phasors
-[phiCS,magCS] = Cosinor(time,CS,1);
-[phiCLA,magCLA] = Cosinor(time,CS,1);
-[phiLux,magLux] = Cosinor(time,CS,1);
+[magnitude, angle] = phasor24(CS, activity, time);
 %   Plot phasors
-axes5 = axes('Parent',figure1,'Position',[x2 y2 w2 h2]);
-PhasorPlot24hr([phiCS phiCLA phiLux], [magCS magCLA magLux], 'o')
-legend1 = legend(axes5,'show');
-set(legend1,'Orientation','horizontal','Position',[x2 y3 w2 h3]);
+axes('Parent',figure1,'Position',[x2 y2 w2 h2]);
+phasorplot(magnitude,angle,1,4,6,'top','left',.1);
+title(gca,'CS/Activity Phasor');
 
-% Panel 6 Text annotations
-notes = cell(3,1);
-notes{1} = ['Median CS: ', num2str(median(CS), '%.3f')];
-notes{2} = ['Median CLA: ', num2str(median(CLA), '%.1f')];
-notes{3} = ['Median Illuminance: ', num2str(median(lux), '%.1f'), ' lux'];
+% Panel 5 Text annotations
+[IS,IV] = IS_IVcalcFunction(activity,180);
+notes = cell(4,1);
+notes{1} = ['Phasor magnitude: ', num2str(magnitude, '%.3f')];
+notes{2} = ['Phasor angle: ', num2str(angle, '%.2f'), ' hr'];
+notes{3} = ['IS: ', num2str(IS, '%.4f')];
+notes{4} = ['IV: ', num2str(IV, '%.4f')];
 annotation(figure1,'textbox', [x2 0.1 w2 0.2], 'String',notes,...
-    'BackgroundColor','w');
+    'EdgeColor','none');
 end
 
 function aPanel(x,y,label,Parent,Postion,FaceColor,EdgeColor)
