@@ -9,7 +9,14 @@ StartPath = '\\ROOT\projects\HANDLS\Files From HANDLS'; % directory to start in
 InfoName = fullfile(InfoPath,InfoName);
 DataName = fullfile(DataPath,DataName);
 
-[time,red,green,blue,lux,CLA,activity] = ReadRaw(InfoName,DataName);
+ProcessedData = ReadRaw(InfoName,DataName);
+time = ProcessedData.time;
+red = ProcessedData.red;
+green = ProcessedData.green;
+blue = ProcessedData.blue;
+lux = ProcessedData.lux;
+CLA = ProcessedData.CLA;
+activity = ProcessedData.activity;
 
 % convert time to string format
 timeStr = datestr(time,'dd/mm/yyyy HH:MM:SS');
