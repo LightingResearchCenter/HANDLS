@@ -9,11 +9,11 @@ function MillerPlot(datetime, AI, CS, days, Title)
 TI = datetime - datetime(1); % time index in days from start
 
 % Trim data to length of experiment
-idx = find(TI <= days); % indices of data to keep
-datetime = datetime(idx);
-TI = TI(idx);
-AI = AI(idx);
-CS = CS(idx);
+delta = find(TI <= days); % indices of data to keep
+datetime = datetime(delta);
+TI = TI(delta);
+AI = AI(delta);
+CS = CS(delta);
 
 % Reshape data into columns of full days
 % ASSUMES CONSTANT SAMPLING RATE
@@ -32,6 +32,12 @@ mAI = mean(AI,2);
 TI = TI(1:dayIdx);
 % Convert time index into hours from start
 hour = TI*24;
+
+% Find start time offset from midnight
+delta = -find(datetime >= ceil(datetime(1)),1,'first');
+% Appropriately offset the data
+mCS = circshift(mCS,delta);
+mAI = circshift(mAI,delta);
 
 % Create area plots
 % Create figure
