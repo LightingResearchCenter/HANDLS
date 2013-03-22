@@ -21,4 +21,5 @@ for i1 = 1:n
         ProcessedData{i1}.activity);
     pdfName = fullfile(PlotDir,[ProcessedData{i1}.subject,'.pdf']);
     print(gcf,'-dpdf',pdfName);
+    close all
 end
