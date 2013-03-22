@@ -70,7 +70,7 @@ phasorplot(magnitude,angle,1,4,6,'top','left',.1);
 title(gca,'CS/Activity Phasor');
 
 % Panel 5 Text annotations
-[IS,IV] = IS_IVcalcFunction(activity,180);
+[IS,IV] = IS_IVcalcFunction(activity,60);
 notes = cell(4,1);
 notes{1} = ['Phasor magnitude: ', num2str(magnitude, '%.3f')];
 notes{2} = ['Phasor angle: ', num2str(angle, '%.2f'), ' hr'];
