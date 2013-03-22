@@ -33,7 +33,7 @@ for i1 = 1:n
     subject = ProcessedData{i1}.subject;
     MillerPlot(time, AI, CS, 7, subject);
     FileName = [subject,'_',datestr(time(1),'yy-mm-dd')];
-    print('-dpng','-r100',fullfile(PlotDir,FileName));
+    print(gcf,'-dpdf',fullfile(PlotDir,FileName));
     close(gcf)
 end
 
