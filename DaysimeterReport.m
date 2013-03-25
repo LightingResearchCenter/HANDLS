@@ -15,9 +15,6 @@ y2 = 0.8-h2;
 w2 = h2*7.5/10;
 x2 = 1-0.05-w2;
 
-h3 = 0.04;
-y3 = y2-h3-0.02;
-
 % Create figure
 figure1 = figure;
 set(figure1,'PaperUnits','inches',...
@@ -70,7 +67,7 @@ phasorplot(magnitude,angle,1,4,6,'top','left',.1);
 title(gca,'CS/Activity Phasor');
 
 % Panel 5 Text annotations
-[IS,IV] = IS_IVcalcFunction(activity,60);
+[IS,IV] = IS_IVcalc(activity,60);
 notes = cell(4,1);
 notes{1} = ['Phasor magnitude: ', num2str(magnitude, '%.3f')];
 notes{2} = ['Phasor angle: ', num2str(angle, '%.2f'), ' hr'];

@@ -1,4 +1,4 @@
-function [IS,IV] = IS_IVcalcFunction(A,dt)
+function [IS,IV] = IS_IVcalc(A,dt)
 % Returns the interdaily stability (IS) and the
 % intradaily variability (IV) statistic for time series A.
 % A is a column vector and must be in equal time increments
@@ -19,7 +19,9 @@ end
 % Convert to hourly data increments
 Ahourly = zeros(floor(N*dthours),1);
 for i = 1:floor(N*dthours) % 1 to the number of hours of data
-    Ahourly(i) = meanExcudeNaN(A(floor((i-1)/dthours+1):floor(i/dthours)));
+    b = A(floor((i-1)/dthours+1):floor(i/dthours));
+    c = b(~isnan(b));
+    Ahourly(i) = mean(c);
 end
 
 p = 24; % period in hours
