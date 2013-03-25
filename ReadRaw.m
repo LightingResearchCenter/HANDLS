@@ -73,6 +73,10 @@ blue = B*cal(3);
 [lux, CLA] = Day12luxCLA(red, green, blue, IDnum);
 CLA(CLA < 0) = 0;
 
+% filter CLA and activity
+CLA = filter5min(CLA,logInterval);
+activity = filter5min(activity,logInterval);
+
 % calculate CS
 CS = CSCalc(CLA);
 
@@ -83,4 +87,14 @@ CS = CSCalc(CLA);
 ProcessedData = struct('subject',subject,'time',time,'red',red,'green',green,'blue',blue,...
     'lux',lux,'CLA',CLA,'CS',CS,'activity',activity);
 
+end
+
+function data = filter5min(data,epoch)
+%FILTER5MIN Lowpass filter data series with zero phase delay,
+%   moving average window.
+%   epoch = sampling epoch in seconds
+minutes = 5; % length of filter (minutes)
+Srate = 1/epoch; % sampling rate in hertz
+b = ones(1,minutes*60*Srate)/(minutes*60*Srate);
+data = filtfilt(b,1,data);
 end
