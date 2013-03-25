@@ -4,8 +4,8 @@ function Ap = EnrightPeriodogramMean(X,p)
 %Bushell, Teh Chi Square Periodogram: Its Utility for Analysis of Circadian
 %Rythms, J. Theor. Biol. (1978) Vol 72, pp 131-160.
 
-N = length(X);
-Ap = zeros(length(p),1);
+N = length(X)
+Ap = [];
 for i = 1:length(p)
     P = p(i); % true as long as p is an integer, i.e. no fractional periods (for now)
     %K = ceil(N/p(1));
@@ -15,8 +15,7 @@ for i = 1:length(p)
     Xsubset = X(1:K*P);
     M = (reshape(Xsubset,P,K))';
     if N/P > K
-        % fill empty cells with mean taken along 1st dimension
-        partialRow = [(X(K*P+1:end))' mean(M(:,N-K*P+1:P),1)];
+        partialRow = [(X(K*P+1:end))' mean(M(:,N-K*P+1:P),1)];% fill empty cells with mean taken along 1st dimension
         M = [M;partialRow];
     end
     Xmean = mean(M); % column means
