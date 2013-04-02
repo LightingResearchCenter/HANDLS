@@ -1,5 +1,5 @@
 function DaysimeterReport(subject,time,lux,CS,activity)
-%DAYSIMETERREPORT Generates graphical summary od processed Dasimeter data
+%DAYSIMETERREPORT Generates graphical summary of processed Dasimeter data
 
 % Trim data to length of experiment
 days = 7;
