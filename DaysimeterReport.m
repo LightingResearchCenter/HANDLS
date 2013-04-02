@@ -1,6 +1,15 @@
 function DaysimeterReport(subject,time,lux,CS,activity)
 %DAYSIMETERREPORT Generates graphical summary od processed Dasimeter data
 
+% Trim data to length of experiment
+days = 7;
+TI = time - time(1); % time index in days from start
+delta = find(TI <= days); % indices of data to keep
+time = time(delta);
+activity = activity(delta);
+lux = lux(delta);
+CS = CS(delta);
+
 % Set color values
 FaceColor = 'k';
 EdgeColor = 'none';
@@ -55,10 +64,12 @@ ylim(gca,[0 1]);
 Panel3 = axes('Parent',figure1,'Position',[x1 0.1 w1 h1]);
 semilogy(Panel3,time,lux,'Color',FaceColor);
 set(Panel3,'Box','off','TickDir','out');
+axis tight;
 ticks = get(Panel3,'xtick');
 set(Panel3,'xtick',ticks,'xticklabel',datestr(ticks,'mm/dd'));
 ylim3 = get(gca,'YLim');
-ylim(gca,[1 ylim3(2)]);
+% ylim(gca,[1 ylim3(2)]);
+ylim(gca,[1 10^5]);
 ylabel('lux');
 
 % Panel 4 Phasors
