@@ -2,9 +2,10 @@ clear
 clc
 
 load ProcessedData.mat ProcessedData FileDir
+addpath('C:\Users\jonesg5\Documents\GitHub\PhasorReport');
 
 % Make directory for reports if it does not exist
-PlotDir = fullfile(FileDir,'DaysimeterReports');
+PlotDir = fullfile(FileDir,'PhasorReports');
 if isdir(PlotDir) == 0
     mkdir(PlotDir);
 else
@@ -16,10 +17,10 @@ close all
 
 n = length(ProcessedData);
 for i1 = 1:n
-    DaysimeterReport(ProcessedData{i1}.subject,ProcessedData{i1}.time,...
-        ProcessedData{i1}.lux,ProcessedData{i1}.CS,...
-        ProcessedData{i1}.activity);
-    pdfName = fullfile(PlotDir,[ProcessedData{i1}.subject,'.pdf']);
+    PhasorReport(ProcessedData{i1}.time',smooth(ProcessedData{i1}.CS'),...
+        smooth(ProcessedData{i1}.activity'),ProcessedData{i1}.subject)
+    pdfName = fullfile(PlotDir,[ProcessedData{i1}.subject,'_',...
+        datestr(now,'yyyy-mm-dd'),'.pdf']);
     print(gcf,'-dpdf',pdfName);
     close all
 end
