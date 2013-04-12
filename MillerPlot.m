@@ -75,17 +75,20 @@ for i1 = 1:length(XgridPos)
     line([XgridPos(i1),XgridPos(i1)],[0 Ymax],'Color',GridColor,'LineStyle',':');
 end
 
-% Create areas
-area1 = area(hour,[mAI,mCS],'LineStyle','none');
-set(area1(1),...
-    'FaceColor',[0.6 0.6 0.6],'EdgeColor','none',...
-    'DisplayName','CS - Circadian Stimulus');
-set(area1(2),...
+% Plot AI
+area1 = area(axes1,hour,mAI,'LineStyle','none');
+set(area1,...
     'FaceColor',[0.2 0.2 0.2],'EdgeColor','none',...
-    'DisplayName','AI - Activity Index');
+    'DisplayName','Activity Index');
+
+% Plot CS
+plot1 = plot(axes1,hour,mCS);
+set(plot1,...
+    'Color',[0.6 0.6 0.6],'LineWidth',2,...
+    'DisplayName','Circadian Stimulus');
 
 % Create legend
-legend1 = legend(area1);
+legend1 = legend([area1,plot1]);
 set(legend1,'Orientation','horizontal','Location','NorthOutside');
 
 % Create x-axis label
