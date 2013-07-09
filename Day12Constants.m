@@ -10,7 +10,7 @@ function [Sm, Vm, M, Vp, V, C] = Day12Constants(id)
 
 %pull in appropriate table of constants
 
-f = fopen('\\ROOT\projects\Daysimeter and dimesimeter reference files\data\Day12 Cal Values.txt');
+f = fopen('\\ROOT\projects\DaysimeterAndDimesimeterReferenceFiles\data\Day12 Cal Values.txt');
 
 %throw away header
 fgetl(f);

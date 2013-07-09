@@ -46,7 +46,7 @@ A = A(q);
 time = (1:length(R))/(1/logInterval*60*60*24)+startTime;
 
 % read R,G,B calibration constants
-g = fopen('\\ROOT\projects\Daysimeter and dimesimeter reference files\data\Day12 RGB Values.txt');
+g = fopen('\\ROOT\projects\DaysimeterAndDimesimeterReferenceFiles\data\Day12 RGB Values.txt');
 %find line corresponding to id number
 for i = 1:IDnum
     fgetl(g);
