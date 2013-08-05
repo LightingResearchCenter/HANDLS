@@ -41,9 +41,14 @@ end
 
 %% Read, Process, and Write all files
 for i5 = 1:length(headerFiles)
-    data = ReadRaw(headerFiles{i5},dataFiles{i5});
-    [~,fileName,~] = fileparts(dataFiles{i5});
-    WriteProcessed(data,outputDir,[fileName,'_processed']);
+    try
+        data = ReadRaw(headerFiles{i5},dataFiles{i5});
+        [~,fileName,~] = fileparts(dataFiles{i5});
+        WriteProcessed(data,outputDir,[fileName,'_processed']);
+    catch err
+        display(dataFiles{i5});
+        display(err);
+    end
 end
 
 end
