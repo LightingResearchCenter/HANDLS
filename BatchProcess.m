@@ -43,8 +43,9 @@ end
 for i5 = 1:length(headerFiles)
     try
         data = ReadRaw(headerFiles{i5},dataFiles{i5});
-        [~,fileName,~] = fileparts(dataFiles{i5});
-        WriteProcessed(data,outputDir,[fileName,'_processed']);
+        [~,baseName,~] = fileparts(dataFiles{i5});
+        fileName = [baseName,'_processed.xlsx'];
+        WriteExcel(data,outputDir,fileName);
     catch err
         display(dataFiles{i5});
         display(err);
