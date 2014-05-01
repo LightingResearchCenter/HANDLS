@@ -2,17 +2,21 @@ function BatchProcess
 %BATCHPROCESS Summary of this function goes here
 %   Detailed explanation goes here
 
-%% Determine input and output directories
-startDir = fullfile([filesep,filesep],'ROOT','projects','HANDLS',...
+% Enable required libraries
+[projectDir,~,~] = fileparts(pwd);
+CDFtoolkitDir = fullfile(projectDir,'LRC-CDFtoolkit');
+addpath(CDFtoolkitDir);
+
+% Determine input and output directories
+projectDir = fullfile([filesep,filesep],'ROOT','projects','HANDLS',...
     'Files From HANDLS'); % directory to start in
-parentDir = uigetdir(startDir,'Select parent directory of input.');
-outputDir = fullfile(parentDir,'processedFiles');
+outputDir = fullfile(projectDir,'processedFiles');
 if ~isdir(outputDir)
     mkdir(outputDir);
 end
 
-%% Find subdirectories
-listing = dir(parentDir);
+% Find subdirectories
+listing = dir(projectDir);
 i1 = 1;
 for i2 = 1:length(listing)
     if listing(i2).isdir && ~strncmp(listing(i2).name,'.',1)
@@ -21,9 +25,9 @@ for i2 = 1:length(listing)
     end
 end
 subDirs = subDirs'; % make vertical cell array
-childDirs = fullfile(parentDir,subDirs); % complete path
+childDirs = fullfile(projectDir,subDirs); % complete path
 
-%% Find input files and create output file paths
+% Find input files and create output file paths
 % Initialize cell arrays
 headerFiles = cell(0,0);
 dataFiles = cell(0,0);
@@ -39,13 +43,16 @@ for i3 = 1:length(childDirs)
     end
 end
 
-%% Read, Process, and Write all files
+% Read, Process, and Write all files
 for i5 = 1:length(headerFiles)
     try
-        data = ReadRaw(headerFiles{i5},dataFiles{i5});
         [~,baseName,~] = fileparts(dataFiles{i5});
-        fileName = [baseName,'_processed.xlsx'];
-        WriteExcel(data,outputDir,fileName);
+        savePath = fullfile(outputDir,[baseName,'.cdf']);
+        if exist(savePath,'file') == 2
+            delete(savePath);
+        end
+        
+        WriteProcessedCDF(headerFiles{i5},dataFiles{i5},savePath);
     catch err
         display(dataFiles{i5});
         display(err);

@@ -85,7 +85,7 @@ CS = CSCalc(CLA);
 
 % Bundle Data
 ProcessedData = struct('subject',subject,'time',time,'red',red,'green',green,'blue',blue,...
-    'lux',lux,'CLA',CLA,'CS',CS,'activity',activity);
+    'lux',lux,'CLA',CLA,'CS',CS,'activity',activity,'cal',cal);
 
 end
 
