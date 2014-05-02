@@ -1,22 +1,22 @@
-function BatchProcess
+function batchprocess
 %BATCHPROCESS Summary of this function goes here
 %   Detailed explanation goes here
 
 % Enable required libraries
-[projectDir,~,~] = fileparts(pwd);
-CDFtoolkitDir = fullfile(projectDir,'LRC-CDFtoolkit');
+[parentDir,~,~] = fileparts(pwd);
+CDFtoolkitDir = fullfile(parentDir,'LRC-CDFtoolkit');
 addpath(CDFtoolkitDir);
 
 % Determine input and output directories
-projectDir = fullfile([filesep,filesep],'ROOT','projects','HANDLS',...
-    'Files From HANDLS'); % directory to start in
-outputDir = fullfile(projectDir,'processedFiles');
+projectDir = fullfile([filesep,filesep],'ROOT','projects','HANDLS');
+dataDir = fullfile(projectDir,'Files From HANDLS');
+outputDir = fullfile(dataDir,'CDF');
 if ~isdir(outputDir)
     mkdir(outputDir);
 end
 
 % Find subdirectories
-listing = dir(projectDir);
+listing = dir(dataDir);
 i1 = 1;
 for i2 = 1:length(listing)
     if listing(i2).isdir && ~strncmp(listing(i2).name,'.',1)
@@ -25,7 +25,7 @@ for i2 = 1:length(listing)
     end
 end
 subDirs = subDirs'; % make vertical cell array
-childDirs = fullfile(projectDir,subDirs); % complete path
+childDirs = fullfile(dataDir,subDirs); % complete path
 
 % Find input files and create output file paths
 % Initialize cell arrays
@@ -45,7 +45,7 @@ end
 
 % Read, Process, and Write all files
 for i5 = 1:length(headerFiles)
-    try
+%     try
         [~,baseName,~] = fileparts(dataFiles{i5});
         savePath = fullfile(outputDir,[baseName,'.cdf']);
         if exist(savePath,'file') == 2
@@ -53,10 +53,10 @@ for i5 = 1:length(headerFiles)
         end
         
         WriteProcessedCDF(headerFiles{i5},dataFiles{i5},savePath);
-    catch err
-        display(dataFiles{i5});
-        display(err);
-    end
+%     catch err
+%         display(dataFiles{i5});
+%         display(err);
+%     end
 end
 
 end
