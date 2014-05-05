@@ -3,8 +3,7 @@ function batchreport
 %   Detailed explanation goes here
 
 % Enable required libraries
-[parentDir1,~,~] = fileparts(pwd);
-[parentDir,~,~] = fileparts(parentDir1);
+[parentDir,~,~] = fileparts(pwd);
 CDFtoolkitDir = fullfile(parentDir,'LRC-CDFtoolkit');
 
 addpath(CDFtoolkitDir);
