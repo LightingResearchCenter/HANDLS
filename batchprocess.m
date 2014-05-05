@@ -10,7 +10,7 @@ addpath(CDFtoolkitDir);
 % Determine input and output directories
 projectDir = fullfile([filesep,filesep],'ROOT','projects','HANDLS');
 dataDir = fullfile(projectDir,'Files From HANDLS');
-outputDir = fullfile(dataDir,'CDF');
+outputDir = fullfile(projectDir,'CDF');
 if ~isdir(outputDir)
     mkdir(outputDir);
 end
@@ -43,20 +43,27 @@ for i3 = 1:length(childDirs)
     end
 end
 
+% Sort by file name
+[~,baseNameArray,~] = cellfun(@fileparts,dataFiles,'UniformOutput',false);
+
+[baseNameArray,sortIdx] = sort(baseNameArray);
+headerFiles = headerFiles(sortIdx);
+dataFiles = dataFiles(sortIdx);
+
 % Read, Process, and Write all files
 for i5 = 1:length(headerFiles)
-%     try
-        [~,baseName,~] = fileparts(dataFiles{i5});
+    try
+        baseName = baseNameArray{i5};
         savePath = fullfile(outputDir,[baseName,'.cdf']);
         if exist(savePath,'file') == 2
             delete(savePath);
         end
         
         WriteProcessedCDF(headerFiles{i5},dataFiles{i5},savePath);
-%     catch err
-%         display(dataFiles{i5});
-%         display(err);
-%     end
+    catch err
+        display(dataFiles{i5});
+        display(err);
+    end
 end
 
 end
