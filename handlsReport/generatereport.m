@@ -11,11 +11,11 @@ subjectName = fileName;
 % subjectName = DaysimeterData.GlobalAttributes.subjectID{1};
 % fileName = regexprep(subjectName,'\W','','preservecase');
 
-% logicalArray = logical(DaysimeterData.Variables.logicalArray);
-timeArray = DaysimeterData.Variables.time;
-csArray = DaysimeterData.Variables.CS;
-activityArray = DaysimeterData.Variables.activity;
-illuminanceArray = DaysimeterData.Variables.illuminance;
+logicalArray = logical(DaysimeterData.Variables.logicalArray);
+timeArray = DaysimeterData.Variables.time(logicalArray);
+csArray = DaysimeterData.Variables.CS(logicalArray);
+activityArray = DaysimeterData.Variables.activity(logicalArray);
+illuminanceArray = DaysimeterData.Variables.illuminance(logicalArray);
 illuminanceArray(illuminanceArray<=0) = 0.0005;
 
 %% Analyze data
@@ -84,7 +84,7 @@ end
 function formataxes(hAxes)
 set(hAxes,'TickDir','out');
 set(hAxes,'Box','off');
-datetick2('keeplimits','keepticks');
+datetick2('x','mm/dd/yy','keeplimits','keepticks');
 
 % Box in the plot
 xLim = get(hAxes,'XLim');
@@ -101,14 +101,18 @@ end
 function formatluxaxes(hAxes)
 set(hAxes,'TickDir','out');
 set(hAxes,'Box','off');
-datetick2('keeplimits','keepticks');
+datetick2('x','mm/dd/yy','keeplimits','keepticks');
 
 % Force Limit to start at 1
 luxLim = get(hAxes,'YLim');
 luxLim(1) = 1;
 upperExp = ceil(log10(luxLim(2)));
 luxLim(2) = 10^upperExp;
+try
 set(hAxes,'YLim',luxLim);
+catch err
+    warning(err.message);
+end
 % Evenly distribute tick marks
 yExp = 0:floor(upperExp/5):upperExp;
 yTick = 10.^yExp;

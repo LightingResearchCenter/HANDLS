@@ -11,7 +11,7 @@ addpath(CDFtoolkitDir);
 
 % Select a folder to import
 projectDir = '\\root\projects\HANDLS';
-cdfDir = fullfile(projectDir,'processedCdf');
+cdfDir = fullfile(projectDir,'CDF');
 
 % Find CDFs in folder
 listing = dir([cdfDir,filesep,'*.cdf']);
