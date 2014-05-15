@@ -18,12 +18,17 @@ hCrop = figure('Units','normal','Position',[1,0,1,1]);
 for i1 = 1:nCdf
     cdfPath = fullfile(cdfDir,listing(i1).name);
     [~,cdfName,cdfExt] = fileparts(cdfPath);
-    newName = [cdfName,'_corrected',cdfExt];
+    newName = [cdfName,cdfExt];
     newPath = fullfile(newDir,newName);
+    
+    if exist(newPath,'file') == 2
+        continue;
+    end
     
     % Load the data
     DaysimeterData = ProcessCDF(cdfPath);
-    subjectName = DaysimeterData.GlobalAttributes.subjectID{1};
+%     subjectName = DaysimeterData.GlobalAttributes.subjectID{1};
+    subjectName = cdfName;
     timeArray = DaysimeterData.Variables.time;
     csArray = DaysimeterData.Variables.CS;
     activityArray = DaysimeterData.Variables.activity;

@@ -52,18 +52,13 @@ dataFiles = dataFiles(sortIdx);
 
 % Read, Process, and Write all files
 for i5 = 1:length(headerFiles)
-    try
-        baseName = baseNameArray{i5};
-        savePath = fullfile(outputDir,[baseName,'.cdf']);
-        if exist(savePath,'file') == 2
-            delete(savePath);
-        end
-        
-        WriteProcessedCDF(headerFiles{i5},dataFiles{i5},savePath);
-    catch err
-        display(dataFiles{i5});
-        display(err);
+    baseName = baseNameArray{i5};
+    savePath = fullfile(outputDir,[baseName,'.cdf']);
+    if exist(savePath,'file') == 2
+        continue;
     end
+
+    WriteProcessedCDF(headerFiles{i5},dataFiles{i5},savePath);
 end
 
 end
