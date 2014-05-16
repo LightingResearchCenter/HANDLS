@@ -31,7 +31,7 @@ LuxFix = illuminanceArray;
 AFix = activityArray;
 CSFix = csArray;
 CLAFix = claArray;
-for i1 = 1:length(qup)
+for i1 = 6:length(qup)-5
     index1 = qup(i1);
     index2 = qdn(find(qdn>index1,1,'first'));
     if isempty(index2)
