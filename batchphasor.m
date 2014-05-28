@@ -33,6 +33,8 @@ Output = struct(...
     'sex'                   , {[]} ,...
     'race'                  , {[]} ,...
     'povertyStatus'         , {[]} ,...
+    'meanNonzeroCs'         , {[]} ,...
+    'meanLogLux'            , {[]} ,...
     'phasorMagnitude'       , {[]} ,...
     'phasorAngleHrs'        , {[]} ,...
     'interdailyStability'   , {[]} ,...
@@ -65,23 +67,25 @@ for i1 = 1:nCdf
             continue;
         case 'byteShift'
             % Correct for byte shift error before processing
-            [~,~,csArray,activityArray] = correctbyteshift(timeArray,illuminanceArray,claArray,csArray,activityArray);
+            [illuminanceArray,claArray,csArray,activityArray] = correctbyteshift(timeArray,illuminanceArray,claArray,csArray,activityArray);
         case 'removeSection'
             % Remove sections of data within specified range(s)
             if ~isnan(fileIndex.removeStart1)
                 [~,csArray] = removedata(timeArray,csArray,fileIndex.removeStart1,fileIndex.removeStop1);
+                [~,illuminanceArray] = removedata(timeArray,illuminanceArray,fileIndex.removeStart1,fileIndex.removeStop1);
                 [timeArray,activityArray] = removedata(timeArray,activityArray,fileIndex.removeStart1,fileIndex.removeStop1);
             end
             
             if ~isnan(fileIndex.removeStart2)
                 [~,csArray] = removedata(timeArray,csArray,fileIndex.removeStart2,fileIndex.removeStop2);
+                [~,illuminanceArray] = removedata(timeArray,illuminanceArray,fileIndex.removeStart2,fileIndex.removeStop2);
                 [timeArray,activityArray] = removedata(timeArray,activityArray,fileIndex.removeStart2,fileIndex.removeStop2);
             end
     end
     
     % Plot the data and save to file
     subject = num2str(fileIndex.HNDid);
-    generatereport(subject,timeArray,activityArray,csArray,11,plotDir)
+    generatereport(subject,timeArray,activityArray,csArray,'cs',[0,1],11,plotDir,subject);
     
     % Peform analysis
     Phasor = phasoranalysis(timeArray,csArray,activityArray);
@@ -92,6 +96,8 @@ for i1 = 1:nCdf
     Output(i1,1).sex = fileIndex.sex{1};
     Output(i1,1).race = fileIndex.race{1};
     Output(i1,1).povertyStatus = fileIndex.povertyStatus{1};
+    Output(i1,1).meanNonzeroCs = nonzeromean(csArray);
+    Output(i1,1).meanLogLux = logmean(illuminanceArray);
     Output(i1,1).phasorMagnitude = Phasor.magnitude;
     Output(i1,1).phasorAngleHrs = Phasor.angleHrs;
     Output(i1,1).interdailyStability = Phasor.interdailyStability;
